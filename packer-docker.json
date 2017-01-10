@@ -1,0 +1,33 @@
+{
+  "builders": [
+      {
+      "type": "docker",
+      "image": "centos:centos7.3.1611",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/000-provision.sh",
+        "scripts/001-docker-prepare-systemd.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/cassandra",
+        "tag": "0.1"
+      },
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/cassandra",
+        "tag": "latest"
+      },
+      "docker-push"
+    ]
+  ]
+}
