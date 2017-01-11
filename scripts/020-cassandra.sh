@@ -33,3 +33,10 @@ rm cassandra-topology.properties
 rm cqlshrc.sample
 rm cassandra-rackdc.properties
 rm metrics-reporter-config-sample.yaml
+
+
+mkdir -p /opt/cassandra/data
+mkdir -p /opt/cassandra/commitlog
+mkdir -p /opt/cassandra/savedcaches
+
+cp ~/resources/cassandra.yaml /opt/cassandra/conf/
