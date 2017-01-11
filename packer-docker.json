@@ -8,10 +8,17 @@
   ],
   "provisioners": [
     {
+      "type": "file",
+      "source": "resources",
+      "destination" : "/root"
+    },
+    {
       "type": "shell",
       "scripts": [
         "scripts/000-provision.sh",
-        "scripts/001-docker-prepare-systemd.sh"
+        "scripts/001-docker-prepare-systemd.sh",
+        "scripts/010-tune-os.sh",
+        "scripts/020-cassandra.sh"
       ]
     }
   ],
@@ -20,7 +27,7 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/cassandra",
-        "tag": "0.2"
+        "tag": "0.3"
       },
       {
         "type": "docker-tag",
