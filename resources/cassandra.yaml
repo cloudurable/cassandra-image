@@ -290,8 +290,8 @@ rpc_server_type: hsha
 # encouraged to set a maximum that makes sense for you in production, but do keep in mind that
 # rpc_max_threads represents the maximum number of client requests this server may execute concurrently.
 #
-# rpc_min_threads: 16
-# rpc_max_threads: 2048
+rpc_min_threads: 16
+rpc_max_threads: 2048
 
 # uncomment to set socket buffer sizes on rpc connections
 # rpc_send_buff_size_in_bytes:
