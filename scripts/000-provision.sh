@@ -9,3 +9,4 @@ yum install -y jna
 
 yum install -y epel-release
 yum install -y jemalloc
+yum install -y net-tools

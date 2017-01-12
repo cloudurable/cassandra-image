@@ -1,8 +1,8 @@
 {
   "builders": [
-      {
+    {
       "type": "docker",
-      "image": "cloudurable/cassandra-base:0.1",
+      "image": "centos:centos7.3.1611",
       "commit": true
     }
   ],
@@ -15,9 +15,7 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/001-docker-prepare-systemd.sh",
-        "scripts/010-tune-os.sh",
-        "scripts/020-cassandra.sh"
+        "scripts/000-provision.sh"
       ]
     }
   ],
@@ -25,13 +23,13 @@
     [
       {
         "type": "docker-tag",
-        "repository": "cloudurable/cassandra",
-        "tag": "0.4.4"
+        "repository": "cloudurable/cassandra-base",
+        "tag": "0.1"
       },
-     "docker-push",
+      "docker-push",
       {
         "type": "docker-tag",
-        "repository": "cloudurable/cassandra",
+        "repository": "cloudurable/cassandra-base",
         "tag": "latest"
       },
       "docker-push"
