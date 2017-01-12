@@ -26,4 +26,6 @@ chmod o-r /etc/cassandra/jmxremote.password
 #Except this user
 chmod u+r /etc/cassandra/jmxremote.password
 
+# cp ~/resources/cassandra-vagrant.yaml /opt/cassandra/conf/cassandra.yaml
+
 
