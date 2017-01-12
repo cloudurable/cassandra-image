@@ -16,3 +16,14 @@ echo RUNNING INSTALL CASSANDRA
 scripts/020-cassandra.sh
 
 chown -R vagrant /opt/cassandra/
+
+
+sysctl --system
+
+chown -R vagrant /etc/cassandra/
+#Nobody else can read the password file
+chmod o-r /etc/cassandra/jmxremote.password
+#Except this user
+chmod u+r /etc/cassandra/jmxremote.password
+
+

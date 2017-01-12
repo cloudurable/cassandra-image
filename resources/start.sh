@@ -6,7 +6,7 @@ if [ "x$DOCKER" = "x" ]; then
 fi
 
 if [ "$DOCKER" = "false" ]; then
-    swapoff -a
+    sudo swapoff -a
 fi
 
 export LOCAL_JMX=no
