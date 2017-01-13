@@ -289,9 +289,11 @@ else
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.ssl=false"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
+  JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.local.only=false"
   # JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.password.file=/etc/cassandra/jmxremote.password"
   if [ "x$PARENT_HOST_NAME" = "x" ]; then
-   echo "PARENT_HOST_NAME NOT SET"
+    echo "PARENT_HOST_NAME NOT SET"
+    JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=localhost"
   else
      echo "PARENT_HOST_NAME  SET"
      JVM_OPTS="$JVM_OPTS -Djava.rmi.server.hostname=$PARENT_HOST_NAME"

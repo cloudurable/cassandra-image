@@ -41,6 +41,8 @@ mkdir -p /opt/cassandra/commitlog
 mkdir -p /opt/cassandra/savedcaches
 
 cp ~/resources/cassandra.yaml /opt/cassandra/conf/
+cp ~/resources/cassandra-env.sh /opt/cassandra/conf/
+
 
 mkdir -p /etc/cassandra/
 cp ~/resources/etc-cassie-jmxremote.password /etc/cassandra/jmxremote.password
