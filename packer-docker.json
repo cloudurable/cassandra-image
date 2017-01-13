@@ -26,7 +26,7 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/cassandra",
-        "tag": "0.4.7"
+        "tag": "0.4.8"
       },
      "docker-push",
       {

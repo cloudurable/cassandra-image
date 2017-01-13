@@ -4,3 +4,5 @@
 cassandra-image.iml
 
 .vagrant/
+
+package.box
