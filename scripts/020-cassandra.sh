@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-cassandra_version=2.2.8
+cassandra_version=3.9
 
 mkdir -p /opt/
 cd /opt/
-wget http://mirrors.sonic.net/apache/cassandra/$cassandra_version/apache-cassandra-$cassandra_version-bin.tar.gz
+wget http://mirrors.ocf.berkeley.edu/apache/cassandra/3.9/apache-cassandra-$cassandra_version-bin.tar.gz
 tar -xvf apache-cassandra-$cassandra_version-bin.tar.gz
 
 rm *.tar.gz
@@ -17,13 +17,14 @@ rm -rf javadoc
 rm -rf doc
 rm -rf interface
 # rm -rf pylib/
+head -100 NEWS.txt
+head -100 NOTICE.txt
+head -100 CHANGES.txt
 rm NEWS.txt NOTICE.txt CHANGES.txt
 cd bin
 rm *.bat
 rm *.ps1
-# rm cqlsh
-# rm cqlsh.py
-# rm debug-cql
+
 
 
 cd /opt/cassandra
@@ -39,7 +40,6 @@ mkdir -p /opt/cassandra/logs
 mkdir -p /opt/cassandra/data
 mkdir -p /opt/cassandra/commitlog
 mkdir -p /opt/cassandra/savedcaches
-
 cp ~/resources/cassandra.yaml /opt/cassandra/conf/
 cp ~/resources/cassandra-env.sh /opt/cassandra/conf/
 

@@ -6,16 +6,19 @@ The source code is hosted on GitHub (see [GitHub](https://github.com/cloudurable
 
 Key features of image, AMI, Vagrant box
 
-* Uses JBOD instead of RAID
-* Uses ergonomics to configure Cassandra based on deployment environment
-* Sets up security if requested
-* Sets up TLS/SSL if requested
-* Sets up HD encryption if requested
-* Sets up users
-* Installs Cassandra as a systemd service 
-* Allows cloud deploy 
-* Monitoring (CloudWatch, InfluxDB)
-* Log aggregation (CloudWatch, ELK)
+* Uses JBOD instead of RAID (not done)
+* Uses ergonomics to configure Cassandra based on deployment environment (not done)
+* Sets up security if requested (not done)
+* Sets up TLS/SSL if requested (not done)
+* Sets up HD encryption if requested (not done)
+* Sets up users (not done)
+* Installs Cassandra as a systemd service (not done) 
+* Allows cloud deploy (not done)
+* Monitoring (CloudWatch, InfluxDB) (not done)
+* Log aggregation (CloudWatch, ELK) (not done)
+* Installs JEMalloc and configures Cassandra to use off heap no JVM (done)
+* Install JNA (done)
+* Configures OS (Linux) to be performant (done)
 
 
 ## Create a vagrant box
@@ -23,6 +26,9 @@ Key features of image, AMI, Vagrant box
 git clone https://github.com/cloudurable/cassandra-image.git
 cd cassandra-image 
 vagrant up 
+
+# Connect to vagrant box
+cqlsh localhost 19042
 ```
 
 ## Connect to vagrant image
@@ -35,6 +41,9 @@ vagrant ssh
 git clone https://github.com/cloudurable/cassandra-image.git
 cd cassandra-image 
 bin/start-image.sh
+
+# Connect to docker image
+cqlsh localhost 29042
 ```
 
 ## Provisioning
