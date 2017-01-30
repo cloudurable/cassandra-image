@@ -7,10 +7,10 @@ The source code is hosted on GitHub (see [GitHub](https://github.com/cloudurable
 Key features of image, AMI, Vagrant box
 
 * Uses JBOD instead of RAID (not done)
-* Uses ergonomics to configure Cassandra based on deployment environment (not done)
+* Uses ergonomics to configure Cassandra based on deployment environment (preliminary work done)
 * Sets up security if requested (not done)
 * Sets up TLS/SSL if requested (not done)
-* Sets up HD encryption if requested (not done)
+* Sets up HD encryption if requested (not done, or use encrypted EBS instances)
 * Sets up users (not done)
 * Installs Cassandra as a systemd service (not done) 
 * Allows cloud deploy (not done)

@@ -17,7 +17,8 @@
       "scripts": [
         "scripts/001-docker-prepare-systemd.sh",
         "scripts/010-tune-os.sh",
-        "scripts/020-cassandra.sh"
+        "scripts/020-cassandra.sh",
+        "scripts/030-cassandra-cloud.sh"
       ]
     }
   ],
@@ -26,7 +27,7 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/cassandra",
-        "tag": "0.5.1"
+        "tag": "0.6.0"
       },
      "docker-push",
       {
