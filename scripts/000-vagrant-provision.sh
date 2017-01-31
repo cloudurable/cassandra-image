@@ -14,6 +14,8 @@ echo RUNNING TUNE OS
 scripts/010-tune-os.sh
 echo RUNNING INSTALL CASSANDRA
 scripts/020-cassandra.sh
+echo RUNNING INSTALL CASSANDRA CLOUD
+scripts/030-cassandra-cloud.sh
 
 chown -R vagrant /opt/cassandra/
 
