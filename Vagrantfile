@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.vm.provider "virtualbox" do |vb|
        # Customize the amount of memory on the VM:
-       vb.memory = "6144"
+       vb.memory = "3096"
        vb.cpus = 4
   end
 
@@ -23,7 +23,10 @@ Vagrant.configure("2") do |config|
     node0.vm.network "private_network", ip: "192.168.50.4"
 
     node0.vm.provision "shell", inline: <<-SHELL
-            sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test
+                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
+                -client-address 192.168.50.4 \
+                -cluster-address  192.168.50.4 \
+                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
     SHELL
   end
 
@@ -34,7 +37,10 @@ Vagrant.configure("2") do |config|
     node1.vm.network "private_network", ip: "192.168.50.5"
 
     node1.vm.provision "shell", inline: <<-SHELL
-                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test
+                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
+                -client-address 192.168.50.5 \
+                -cluster-address  192.168.50.5 \
+                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
     SHELL
   end
 
@@ -45,7 +51,10 @@ Vagrant.configure("2") do |config|
     node2.vm.network "private_network", ip: "192.168.50.6"
 
     node2.vm.provision "shell", inline: <<-SHELL
-                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test
+                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test  \
+                -client-address 192.168.50.6 \
+                -cluster-address  192.168.50.6 \
+                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
     SHELL
   end
 
