@@ -44,5 +44,7 @@ mkdir -p /etc/cassandra/
 cp ~/resources/etc-cassie-jmxremote.password /etc/cassandra/jmxremote.password
 chmod -r /etc/cassandra/jmxremote.password
 
+cp ~/resources/opt/cassandra/conf/cassandra-yaml.template /opt/cassandra/conf/cassandra-yaml.template
+
 
 cp ~/resources/start.sh /opt/cassandra/start.sh

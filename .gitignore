@@ -6,3 +6,5 @@ cassandra-image.iml
 .vagrant/
 
 package.box
+
+resources/opt/cassandra/conf/certs/
