@@ -1,9 +1,9 @@
 
 server_encryption_options:
     internode_encryption: all
-    keystore: conf/certs/cassandra.keystore
+    keystore: /opt/cassandra/conf/certs/cassandra.keystore
     keystore_password: cassandra
-    truststore: conf/certs/cassandra.truststore
+    truststore: /opt/cassandra/conf/certs/cassandra.truststore
     truststore_password: cassandra
     # More advanced defaults below:
     protocol: TLS
@@ -12,9 +12,9 @@ client_encryption_options:
     enabled: true
     # If enabled and optional is set to true encrypted and unencrypted connections are handled.
     optional: false
-    keystore: conf/certs/cassandra.keystore
+    keystore: /opt/cassandra/conf/certs/cassandra.keystore
     keystore_password: cassandra
-    truststore: conf/certs/cassandra.truststore
+    truststore: /opt/cassandra/conf/certs/cassandra.truststore
     truststore_password: cassandra
     require_client_auth: true
     protocol: TLS
