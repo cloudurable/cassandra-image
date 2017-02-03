@@ -10,4 +10,6 @@ if [ "$DOCKER" = "false" ]; then
 fi
 
 export LOCAL_JMX=no
-/opt/cassandra/bin/cassandra
+
+sudo su cassandra -c "/opt/cassandra/bin/cassandra" -s /bin/sh
+

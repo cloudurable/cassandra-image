@@ -18,7 +18,8 @@
         "scripts/001-docker-prepare-systemd.sh",
         "scripts/010-tune-os.sh",
         "scripts/020-cassandra.sh",
-        "scripts/030-cassandra-cloud.sh"
+        "scripts/030-cassandra-cloud.sh",
+        "scripts/040-install-certs.sh"
       ]
     }
   ],

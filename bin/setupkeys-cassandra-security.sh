@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 KEY_STORE_PATH="$PWD/resources/opt/cassandra/conf/certs"
 mkdir -p "$KEY_STORE_PATH"
 KEY_STORE="$KEY_STORE_PATH/cassandra.keystore"
@@ -9,6 +11,10 @@ PASSWORD=cassandra
 CLUSTER_NAME=test
 CLUSTER_PUBLIC_CERT="$KEY_STORE_PATH/CLUSTER_${CLUSTER_NAME}_PUBLIC.cer"
 CLIENT_PUBLIC_CERT="$KEY_STORE_PATH/CLIENT_${CLUSTER_NAME}_PUBLIC.cer"
+
+rm -f "${KEY_STORE_PATH}/"*
+rm -f "$PWD/resources/server/certs/ssh"
+rm -f "$PWD/resources/server/certs/ssh.pub"
 
 ### Cluster key setup.
 # Create the cluster key for cluster communication.
@@ -47,3 +53,7 @@ keytool -importkeystore -srcalias "${CLUSTER_NAME}_CLIENT" -srckeystore "$KEY_ST
 openssl pkcs12 -in "$PKS_KEY_STORE" -nokeys -out "$KEY_STORE_PATH/${CLUSTER_NAME}_CLIENT.cer.pem" -passin pass:cassandra
 openssl pkcs12 -in "$PKS_KEY_STORE" -nodes -nocerts -out "$KEY_STORE_PATH/${CLUSTER_NAME}_CLIENT.key.pem" -passin pass:cassandra
 
+
+ssh-keygen -t rsa -C "your_email@example.com" -N bacon -C "setup for cloud" -f "$PWD/resources/server/certs/ssh"
+
+cp "${KEY_STORE_PATH}/"* /opt/cassandra/conf/certs

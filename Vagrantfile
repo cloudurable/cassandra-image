@@ -28,7 +28,6 @@ Vagrant.configure("2") do |config|
                 -cluster-address  192.168.50.4 \
                 -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
 
-
                 /opt/cassandra/bin/cassandra -R
     SHELL
   end
