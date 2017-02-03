@@ -3,12 +3,21 @@
 set -e
 
 DESTINATION_DIRECTORY=/opt/cassandra/conf/certs
-SOURCE_DIRECTORY="~/resources$DESTINATION_DIRECTORY"
+cd ~
+SOURCE_DIRECTORY="$PWD/resources$DESTINATION_DIRECTORY"
+
+echo $SOURCE_DIRECTORY
+
 
 if [ -d "$SOURCE_DIRECTORY" ]; then
+
+    echo "$SOURCE_DIRECTORY was found making directory $DESTINATION_DIRECTORY"
+
     mkdir -p "$DESTINATION_DIRECTORY"
 
-    cp -r "$SOURCE_DIRECTORY" "$DESTINATION_DIRECTORY"
+    echo "$SOURCE_DIRECTORY was found"
+
+    cp  "${SOURCE_DIRECTORY}"/*  "$DESTINATION_DIRECTORY"
 fi
 
 

@@ -16,6 +16,9 @@ echo RUNNING INSTALL CASSANDRA
 scripts/020-cassandra.sh
 echo RUNNING INSTALL CASSANDRA CLOUD
 scripts/030-cassandra-cloud.sh
+echo RUNNING INSTALL CERTS
+scripts/040-install-certs.sh
+
 
 chown -R vagrant /opt/cassandra/
 
@@ -28,7 +31,6 @@ chmod o-r /etc/cassandra/jmxremote.password
 #Except this user
 chmod u+r /etc/cassandra/jmxremote.password
 
-scripts/040-install-certs.sh
 
 
 
