@@ -8,11 +8,6 @@ cassandra-image.iml
 package.box
 
 resources/opt/cassandra/conf/certs/
+resources/server/certs/
 
-box.pub
 
-box
-
-resources/server/certs/ssh
-
-resources/server/certs/ssh.pub
