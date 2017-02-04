@@ -8,25 +8,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "centos/7"
 
-  # Define Bastion Node
-  config.vm.define "bastion" do |node|
-            node.vm.network "private_network", ip: "192.168.50.20"
-            node.vm.provider "virtualbox" do |vb|
-                   vb.memory = "256"
-                   vb.cpus = 1
-            end
-
-
-            node.vm.provision "shell", inline: <<-SHELL
-                yum install -y epel-release
-                yum update -y
-                yum install -y  ansible
-                mkdir ~/resources
-                cp -r /vagrant/resources/* ~/resources/
-                chown -R vagrant:vagrant /home/vagrant
-            SHELL
-  end
-
 
   # Define Cassandra Nodes
   (0..numCassandraNodes-1).each do |i|
@@ -53,6 +34,32 @@ Vagrant.configure("2") do |config|
                 /opt/cassandra/start.sh
             SHELL
         end
+  end
+
+
+  # Define Bastion Node
+  config.vm.define "bastion" do |node|
+            node.vm.network "private_network", ip: "192.168.50.20"
+            node.vm.provider "virtualbox" do |vb|
+                   vb.memory = "256"
+                   vb.cpus = 1
+            end
+
+
+            node.vm.provision "shell", inline: <<-SHELL
+                yum install -y epel-release
+                yum update -y
+                yum install -y  ansible
+                sudo  /vagrant/scripts/002-hosts.sh
+
+                ssh-keyscan node0 node1 node2  >> .ssh/known_hosts
+
+                cp ~/resources/server/certs/*  ~/.ssh/
+                mkdir ~/playbooks
+                cp -r /vagrant/playbooks/* ~/playbooks/
+                sudo cp /home/vagrant/resources/home/inventory.ini /etc/ansible/hosts
+                chown -R vagrant:vagrant /home/vagrant
+            SHELL
   end
 
 

@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  sudo: yes
+  become: true
   gather_facts: no
   remote_user: vagrant
 

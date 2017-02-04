@@ -6,6 +6,7 @@ set -e
 mkdir ~/resources
 cp -r /vagrant/resources/* ~/resources/
 
+
 cd /vagrant/
 
 echo RUNNING PROVISION

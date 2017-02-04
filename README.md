@@ -50,10 +50,33 @@ cqlsh localhost 29042
 We use packer and vagrant to create images. 
 
 
+##  Add keys from Bastion so you can run ansible commands.
+
+```
+ ansible-playbook  /vagrant/playbooks/ssh-addkey.yml --ask-pass
+ 
+```
+
+Password vagrant for user vagrant.
+
+Ping server
+
+```
+ansible node1  -m ping
+```
+
+Ping servers
+
+```
+ansible nodes  -m ping
+```
+
+## More details to follow
+
+
 ## About us
 [Cloudurable](http://cloudurable.com/) provides AMIs, cloudformation templates and monitoring tools 
 to support [Cassandra in production running in EC2](http://cloudurable.com/services/index.html). 
 We also teach advanced [Cassandra courses which teaches how one could develop, support and deploy Cassandra to production in AWS EC2](http://cloudurable.com/services/index.html). 
 
-## More details to follow
 

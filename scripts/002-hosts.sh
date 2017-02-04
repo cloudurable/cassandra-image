@@ -9,6 +9,10 @@ cp ~/resources/server/certs/*  ~/.ssh/
 mkdir ~/.cassandra
 cp ~/resources/home/.cassandra/cqlshrc ~/.cassandra/cqlshrc
 
+## Allow password login to ssh
+sudo sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+
+
 # Create host file so it is easier to ssh from box to box
 cat >> /etc/hosts <<EOL
 
