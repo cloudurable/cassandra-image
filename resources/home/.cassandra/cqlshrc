@@ -1,0 +1,12 @@
+[connection]
+hostname = 192.168.50.4
+port = 9042
+factory = cqlshlib.ssl.ssl_transport_factory
+
+
+[ssl]
+certfile =  /opt/cassandra/conf/certs/test_CLIENT.cer.pem
+validate = false
+# Next 2 lines must be provided when require_client_auth = true in the cassandra.yaml file
+userkey = /opt/cassandra/conf/certs/test_CLIENT.key.pem
+usercert = /opt/cassandra/conf/certs/test_CLIENT.cer.pem

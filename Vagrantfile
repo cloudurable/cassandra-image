@@ -1,69 +1,60 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+numCassandraNodes = 3
+
 Vagrant.configure("2") do |config|
 
 
   config.vm.box = "centos/7"
-  config.vm.provider "virtualbox" do |vb|
-       # Customize the amount of memory on the VM:
-       vb.memory = "2048"
-       vb.cpus = 4
+
+  # Define Bastion Node
+  config.vm.define "bastion" do |node|
+            node.vm.network "private_network", ip: "192.168.50.20"
+            node.vm.provider "virtualbox" do |vb|
+                   vb.memory = "256"
+                   vb.cpus = 1
+            end
+
+
+            node.vm.provision "shell", inline: <<-SHELL
+                yum install -y epel-release
+                yum update -y
+                yum install -y  ansible
+                mkdir ~/resources
+                cp -r /vagrant/resources/* ~/resources/
+                chown -R vagrant:vagrant /home/vagrant
+            SHELL
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
-        sudo /vagrant/scripts/000-vagrant-provision.sh
-  SHELL
+
+  # Define Cassandra Nodes
+  (0..numCassandraNodes-1).each do |i|
+
+        port_number = i + 4
+        ip_address = "192.168.50.#{port_number}"
+        seed_addresses = "192.168.50.4,192.168.50.5,192.168.50.6"
+        config.vm.define "node#{i}" do |node|
+            node.vm.network "private_network", ip: ip_address
+            node.vm.provider "virtualbox" do |vb|
+                   vb.memory = "2048"
+                   vb.cpus = 4
+            end
 
 
-  config.vm.define "node0" do |node0|
-    node0.vm.network "forwarded_port", guest: 7000, host: 17000
-    node0.vm.network "forwarded_port", guest: 7199, host: 17199
-    node0.vm.network "forwarded_port", guest: 9042, host: 19042
-    node0.vm.network "private_network", ip: "192.168.50.4"
+            node.vm.provision "shell", inline: <<-SHELL
+                sudo /vagrant/scripts/000-vagrant-provision.sh
 
-    node0.vm.provision "shell", inline: <<-SHELL
                 sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
-                -client-address 192.168.50.4 \
-                -cluster-address  192.168.50.4 \
-                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
+                -client-address     #{ip_address} \
+                -cluster-address    #{ip_address} \
+                -cluster-seeds      #{seed_addresses}
 
                 /opt/cassandra/start.sh
-    SHELL
+            SHELL
+        end
   end
 
-  config.vm.define "node1" do |node1|
-    node1.vm.network "forwarded_port", guest: 7000, host: 27000
-    node1.vm.network "forwarded_port", guest: 7199, host: 27199
-    node1.vm.network "forwarded_port", guest: 9042, host: 29042
-    node1.vm.network "private_network", ip: "192.168.50.5"
-
-    node1.vm.provision "shell", inline: <<-SHELL
-                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
-                -client-address 192.168.50.5 \
-                -cluster-address  192.168.50.5 \
-                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
-
-                /opt/cassandra/start.sh
-    SHELL
-  end
-
-  config.vm.define "node2" do |node2|
-    node2.vm.network "forwarded_port", guest: 7000, host: 37000
-    node2.vm.network "forwarded_port", guest: 7199, host: 37199
-    node2.vm.network "forwarded_port", guest: 9042, host: 39042
-    node2.vm.network "private_network", ip: "192.168.50.6"
-
-    node2.vm.provision "shell", inline: <<-SHELL
-                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test  \
-                -client-address 192.168.50.6 \
-                -cluster-address  192.168.50.6 \
-                -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
-
-
-                /opt/cassandra/start.sh
-    SHELL
-  end
 
 
   #

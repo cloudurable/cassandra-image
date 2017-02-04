@@ -10,6 +10,8 @@ cd /vagrant/
 
 echo RUNNING PROVISION
 scripts/000-provision.sh
+echo Building host file
+scripts/002-hosts.sh
 echo RUNNING TUNE OS
 scripts/010-tune-os.sh
 echo RUNNING INSTALL CASSANDRA
