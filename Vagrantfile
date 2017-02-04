@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.vm.provider "virtualbox" do |vb|
        # Customize the amount of memory on the VM:
-       vb.memory = "3096"
+       vb.memory = "2048"
        vb.cpus = 4
   end
 
@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
                 -cluster-address  192.168.50.4 \
                 -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
 
-                /opt/cassandra/bin/cassandra -R
+                /opt/cassandra/start.sh
     SHELL
   end
 
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
                 -cluster-address  192.168.50.5 \
                 -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
 
-                /opt/cassandra/bin/cassandra -R
+                /opt/cassandra/start.sh
     SHELL
   end
 
@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
                 -cluster-seeds 192.168.50.4,192.168.50.5,192.168.50.6
 
 
-                /opt/cassandra/bin/cassandra -R
+                /opt/cassandra/start.sh
     SHELL
   end
 

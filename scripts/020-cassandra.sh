@@ -41,7 +41,6 @@ rm cqlshrc.sample
 echo "Remove unwanted tools"
 cd /opt/cassandra/tools/bin
 rm *.bat
-rm *.ps1
 
 
 mkdir -p /opt/cassandra/logs
@@ -49,9 +48,6 @@ mkdir -p /opt/cassandra/data
 mkdir -p /opt/cassandra/commitlog
 mkdir -p /opt/cassandra/savedcaches
 
-echo "Create Unix Cassandra User"
-sudo useradd cassandra
-chown -R cassandra /opt/cassandra
 
 
 mkdir -p /etc/cassandra/
@@ -62,3 +58,10 @@ cp ~/resources/opt/cassandra/conf/cassandra-yaml.template /opt/cassandra/conf/ca
 
 
 cp ~/resources/start.sh /opt/cassandra/start.sh
+
+
+echo "Create Unix Cassandra User"
+useradd cassandra
+
+echo "Chown files to cassandra"
+chown -R cassandra /opt/cassandra
