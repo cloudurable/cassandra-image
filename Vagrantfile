@@ -50,14 +50,19 @@ Vagrant.configure("2") do |config|
                 yum install -y epel-release
                 yum update -y
                 yum install -y  ansible
+
+                sudo mkdir ~/resources
+                sudo cp -r /vagrant/resources/* ~/resources/
                 sudo  /vagrant/scripts/002-hosts.sh
 
                 ssh-keyscan node0 node1 node2  >> .ssh/known_hosts
 
+
+
                 cp ~/resources/server/certs/*  ~/.ssh/
                 mkdir ~/playbooks
                 cp -r /vagrant/playbooks/* ~/playbooks/
-                sudo cp /home/vagrant/resources/home/inventory.ini /etc/ansible/hosts
+                sudo cp /vagrant/resources/home/inventory.ini /etc/ansible/hosts
                 chown -R vagrant:vagrant /home/vagrant
             SHELL
   end
