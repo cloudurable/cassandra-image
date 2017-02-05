@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
 
 
 
-                cp ~/resources/server/certs/*  ~/.ssh/
+                cp /vagrant/resources/server/certs/*  ~/.ssh/
                 mkdir ~/playbooks
                 cp -r /vagrant/playbooks/* ~/playbooks/
                 sudo cp /vagrant/resources/home/inventory.ini /etc/ansible/hosts
