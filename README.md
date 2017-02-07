@@ -50,8 +50,12 @@ cqlsh localhost 29042
 We use packer and vagrant to create images. 
 
 
+#### Working with ansible from bastion
 
-Password vagrant for user vagrant.
+```sh
+$ vagrant ssh bastion
+```
+
 
 
 First setup ssh-agent and add keys to it.
@@ -100,6 +104,108 @@ node1 | SUCCESS => {
 }
 
 ```
+
+## Setting up my MacOSX to run Ansible against instances
+
+Move to the where you checked out the [project](https://github.com/cloudurable/cassandra-image).
+
+```sh
+cd ~/github/cassandra-image
+```
+
+#### Add bastion, node0, etc. to /etc/hosts
+```sh
+$ cat /etc/hosts
+
+### Used for ansible/ vagrant
+192.168.50.20  bastion
+192.168.50.4  node0
+192.168.50.5  node1
+192.168.50.6  node2
+192.168.50.7  node3
+192.168.50.8  node4
+192.168.50.9  node5
+
+```
+
+#### Add keys to known_hosts to avoid prompts
+```sh
+$ ssh-keyscan node0 node1 node2  >> ~/.ssh/known_hosts
+
+```
+
+
+#### Start ssh-agent and add keys
+```
+$ ssh-agent bash
+$ ssh-add ~/.ssh/test_rsa
+```
+
+#### Notice the ansible.cfg file and inventory.ini file in the project dir
+
+```
+$ cd ~/github/cassandra-image
+
+$ cat ansible.cfg 
+[defaults]
+hostfile = inventory.ini
+
+cat inventory.ini 
+[nodes]
+node0 ansible_user=vagrant
+node1 ansible_user=vagrant
+node2 ansible_user=vagrant
+
+
+```
+
+Ansible will use these. 
+
+
+
+#### Ansible Ping server
+```sh
+$ ansible node0 -m ping
+```
+
+Output
+```
+node0 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+
+```
+
+
+
+#### Ansible Ping servers
+
+```sh
+$ ansible nodes  -m ping
+```
+
+Output
+```
+node0 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+node2 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+node1 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+
+```
+
+
+
+
+
 
 ## More details to follow
 

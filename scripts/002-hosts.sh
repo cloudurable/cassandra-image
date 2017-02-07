@@ -11,7 +11,7 @@ cp ~/resources/home/.cassandra/cqlshrc ~/.cassandra/cqlshrc
 
 ## Allow password login to ssh.
 sed -ie 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-sed -ie 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+sed -ie 's/#PubkeyAuthentication no/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
 
 ## System control restart sshd daemon to take sshd_config into effect.
 systemctl restart sshd
