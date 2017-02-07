@@ -50,25 +50,55 @@ cqlsh localhost 29042
 We use packer and vagrant to create images. 
 
 
-##  Add keys from Bastion so you can run ansible commands.
-
-```
- ansible-playbook  /vagrant/playbooks/ssh-addkey.yml --ask-pass
- 
-```
 
 Password vagrant for user vagrant.
 
-Ping server
+
+First setup ssh-agent and add keys to it.
+
+#### Start ssh-agent and add keys
+```
+$ ssh-agent bash
+$ ssh-add ~/.ssh/test_rsa
+```
+
+#### Ansible Ping server
+```sh
+$ ansible node0 -m ping
+```
+
+Output
+```
+node0 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
 
 ```
-ansible node1  -m ping
+
+
+
+#### Ansible Ping servers
+
+```sh
+$ ansible nodes  -m ping
 ```
 
-Ping servers
-
+Output
 ```
-ansible nodes  -m ping
+node0 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+node2 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+node1 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+
 ```
 
 ## More details to follow
