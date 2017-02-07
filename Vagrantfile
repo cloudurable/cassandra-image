@@ -27,11 +27,7 @@ Vagrant.configure("2") do |config|
 
                 sudo /vagrant/scripts/000-vagrant-provision.sh
 
-                mkdir ~/resources
-                cp -r /vagrant/resources/* ~/resources/
 
-                mkdir  -p  ~/.ssh/
-                cp ~/resources/server/certs/*  ~/.ssh/
 
                 sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
                 -client-address     #{ip_address} \
@@ -62,15 +58,20 @@ Vagrant.configure("2") do |config|
                 yum update -y
                 yum install -y  ansible
 
-                sudo mkdir ~/resources
-                sudo cp -r /vagrant/resources/* ~/resources/
+                mkdir /home/vagrant/resources
+                cp -r /vagrant/resources/* /home/vagrant/resources/
+
+                mkdir -p ~/resources
+                cp -r /vagrant/resources/* ~/resources/
+
+                mkdir  -p  /home/vagrant/.ssh/
+                cp /vagrant/resources/server/certs/*  /home/vagrant/.ssh/
+
                 sudo  /vagrant/scripts/002-hosts.sh
 
-                ssh-keyscan node0 node1 node2  >> .ssh/known_hosts
+                ssh-keyscan node0 node1 node2  >> /home/vagrant/.ssh/known_hosts
 
 
-
-                cp /vagrant/resources/server/certs/*  ~/.ssh/
                 mkdir ~/playbooks
                 cp -r /vagrant/playbooks/* ~/playbooks/
                 sudo cp /vagrant/resources/home/inventory.ini /etc/ansible/hosts
