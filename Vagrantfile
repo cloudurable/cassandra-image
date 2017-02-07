@@ -25,10 +25,13 @@ Vagrant.configure("2") do |config|
 
             node.vm.provision "shell", inline: <<-SHELL
 
+                sudo /vagrant/scripts/000-vagrant-provision.sh
+
+                mkdir ~/resources
+                cp -r /vagrant/resources/* ~/resources/
+
                 mkdir  -p  ~/.ssh/
                 cp ~/resources/server/certs/*  ~/.ssh/
-
-                sudo /vagrant/scripts/000-vagrant-provision.sh
 
                 sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
                 -client-address     #{ip_address} \
