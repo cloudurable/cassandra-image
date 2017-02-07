@@ -24,6 +24,10 @@ Vagrant.configure("2") do |config|
 
 
             node.vm.provision "shell", inline: <<-SHELL
+
+                mkdir  -p  ~/.ssh/
+                cp ~/resources/server/certs/*  ~/.ssh/
+
                 sudo /vagrant/scripts/000-vagrant-provision.sh
 
                 sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
@@ -33,6 +37,10 @@ Vagrant.configure("2") do |config|
 
                 /opt/cassandra/start.sh
             SHELL
+
+            node.vm.provision "ansible" do |ansible|
+                  ansible.playbook = "playbooks/ssh-addkey.yml"
+            end
         end
   end
 
@@ -65,6 +73,8 @@ Vagrant.configure("2") do |config|
                 sudo cp /vagrant/resources/home/inventory.ini /etc/ansible/hosts
                 chown -R vagrant:vagrant /home/vagrant
             SHELL
+
+
   end
 
 

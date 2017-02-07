@@ -54,6 +54,9 @@ openssl pkcs12 -in "$PKS_KEY_STORE" -nokeys -out "$KEY_STORE_PATH/${CLUSTER_NAME
 openssl pkcs12 -in "$PKS_KEY_STORE" -nodes -nocerts -out "$KEY_STORE_PATH/${CLUSTER_NAME}_CLIENT.key.pem" -passin pass:cassandra
 
 
-ssh-keygen -t rsa -C "your_email@example.com" -N bacon -C "setup for cloud" -f "$PWD/resources/server/certs/${CLUSTER_NAME}_rsa"
+ssh-keygen -t rsa -C "your_email@example.com" -N "" -C "setup for cloud" -f "$PWD/resources/server/certs/${CLUSTER_NAME}_rsa"
+
+chmod 700 "$PWD/resources/server/certs/"*
 
 cp "${KEY_STORE_PATH}/"* /opt/cassandra/conf/certs
+

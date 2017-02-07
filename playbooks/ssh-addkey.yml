@@ -8,5 +8,5 @@
 
   - name: install ssh key
     authorized_key: user=vagrant
-                    key="{{ lookup('file', '~/.ssh/test_rsa.pub') }}"
+                    key="{{ lookup('file', '/home/vagrant/.ssh/test_rsa.pub') }}"
                     state=present
