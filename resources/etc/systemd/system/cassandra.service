@@ -6,7 +6,7 @@ Description=Cassandra Service
 Type=forking
 PIDFile=/opt/cassandra/PID
 
-ExecStartPre=/bin/chown -R cassandra /opt/cassandra
+ExecStartPre=- /bin/chown -R cassandra /opt/cassandra
 ExecStart=/opt/cassandra/bin/cassandra  -p /opt/cassandra/PID
 
 WorkingDirectory=/opt/cassandra
