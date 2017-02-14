@@ -1,0 +1,24 @@
+[Unit]
+Description=Cassandra Service
+
+
+[Service]
+Type=forking
+PIDFile=/opt/cassandra/PID
+
+ExecStartPre=- swapoff -a
+ExecStartPre=- /bin/chown -R cassandra /opt/cassandra
+ExecStart=/opt/cassandra/bin/cassandra  -p /opt/cassandra/PID
+
+WorkingDirectory=/opt/cassandra
+Restart=always
+RestartSec=60
+TimeoutStopSec=60
+TimeoutStartSec=60
+User=cassandra
+
+
+
+[Install]
+WantedBy=multi-user.target
+

@@ -27,6 +27,8 @@ echo RUNNING INSTALL CASSANDRA CLOUD
 scripts/030-cassandra-cloud.sh
 echo RUNNING INSTALL CERTS
 scripts/040-install-certs.sh
+echo RUNNING SYTSTEMD SETUP
+scripts/050-systemd-setup.sh
 
 
 chown -R cassandra /opt/cassandra/

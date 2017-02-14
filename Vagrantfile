@@ -34,7 +34,6 @@ Vagrant.configure("2") do |config|
                 -cluster-address    #{ip_address} \
                 -cluster-seeds      #{seed_addresses}
 
-                /opt/cassandra/start.sh
             SHELL
 
             node.vm.provision "ansible" do |ansible|
