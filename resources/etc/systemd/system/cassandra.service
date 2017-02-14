@@ -3,16 +3,18 @@ Description=Cassandra Service
 
 
 [Service]
-Type=forking
 PIDFile=/opt/cassandra/PID
-ExecStart=/opt/cassandra/start.sh
+ExecStart=/opt/cassandra/bin/cassandra -p /opt/cassandra/PID
 ExecStop=/opt/cassandra/stop.sh
 Restart=always
+RestartSec=60
 # Todo implement a clean shutdown in stop or reload.
 #ExecReload=/opt/cassandra/reload.sh
-TimeoutStopSec=180
-TimeoutStartSec=180
+TimeoutStopSec=60
+TimeoutStartSec=60
 RootDirectory=/opt/cassandra
+User=cassandra
+
 
 [Install]
 WantedBy=multi-user.target
