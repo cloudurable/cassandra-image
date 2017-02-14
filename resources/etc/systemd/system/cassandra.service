@@ -5,7 +5,7 @@ Description=Cassandra Service
 [Service]
 PIDFile=/opt/cassandra/PID
 ExecStart=/opt/cassandra/bin/cassandra -p /opt/cassandra/PID
-ExecStop=/opt/cassandra/stop.sh
+# ExecStop=/opt/cassandra/stop.sh
 Restart=always
 RestartSec=60
 # Todo implement a clean shutdown in stop or reload.
