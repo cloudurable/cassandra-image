@@ -11,4 +11,5 @@ resources/opt/cassandra/conf/certs/
 resources/server/certs/
 
 
-/resources/opt/cloudurable/bin/
+resources/opt/cloudurable/bin/
+resources/opt/*.tar.gz
