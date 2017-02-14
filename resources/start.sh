@@ -13,7 +13,7 @@ if [ "$DOCKER" = "false" ]; then
     sudo swapoff -a
     sudo chown -R cassandra /opt/cassandra
     echo "RUNNING CASSANDRA"
-    sudo su cassandra -c "/opt/cassandra/bin/cassandra" -s /bin/sh
+    sudo su cassandra -c "/opt/cassandra/bin/cassandra -p /opt/cassandra/PID" -s /bin/sh
 fi
 
 
