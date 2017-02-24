@@ -7,8 +7,7 @@ cassandra_version=3.9
 echo "Install Cassandra"
 mkdir -p /opt/
 cd /opt/
-echo wget http://mirrors.ocf.berkeley.edu/apache/cassandra/${cassandra_version}/apache-cassandra-${cassandra_version}-bin.tar.gz
-exit 1
+cp ~/resources/opt/apache-cassandra-${cassandra_version}-bin.tar.gz .
 tar -xvf apache-cassandra-${cassandra_version}-bin.tar.gz
 
 rm *.tar.gz
