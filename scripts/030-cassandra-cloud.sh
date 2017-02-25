@@ -3,6 +3,6 @@
 set -e
 
 mkdir -p /opt/cloudurable/bin/
-mv ~/resources/opt/cloudurable/bin/cassandra-cloud /opt/cloudurable/bin/cassandra-cloud
+mv ~/resources/opt/cloudurable/bin/* /opt/cloudurable/bin/
 
 echo "Done"
