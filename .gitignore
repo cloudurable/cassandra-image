@@ -11,3 +11,11 @@ resources/opt/cassandra/conf/certs/
 resources/server/certs/
 
 
+
+resources/opt/apache-cassandra-3.9-bin.tar.gz
+
+resources/opt/cloudurable/bin/cassandra-cloud
+
+resources/opt/cloudurable/bin/metricsd
+
+resources/opt/cloudurable/bin/systemd-cloud-watch
