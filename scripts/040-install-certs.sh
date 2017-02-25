@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 DESTINATION_DIRECTORY=/opt/cassandra/conf/certs
 cd ~
 SOURCE_DIRECTORY="$PWD/resources$DESTINATION_DIRECTORY"

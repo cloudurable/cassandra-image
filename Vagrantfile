@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
 
 
-                sudo /opt/cassandra/bin/cassandra-cloud -cluster-name test \
+                sudo /opt/cloudurable/bin/cassandra-cloud -cluster-name test \
                 -client-address     #{ip_address} \
                 -cluster-address    #{ip_address} \
                 -cluster-seeds      #{seed_addresses}
