@@ -1,0 +1,18 @@
+[Unit]
+Description=MetricsD OS Metrics
+Requires=cassandra.service
+After=cassandra.service
+
+[Service]
+ExecStart=/opt/cloudurable/bin/metricsd
+
+WorkingDirectory=/opt/cloudurable
+Restart=always
+RestartSec=60
+TimeoutStopSec=60
+TimeoutStartSec=60
+
+
+[Install]
+WantedBy=multi-user.target
+
