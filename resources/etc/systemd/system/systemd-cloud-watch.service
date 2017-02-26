@@ -1,0 +1,18 @@
+[Unit]
+Description=SystemD Cloud Watch Sends Journald logs to CloudWatch
+Requires=cassandra.service
+After=cassandra.service
+
+[Service]
+ExecStart=/opt/cloudurable/bin/systemd-cloud-watch
+
+WorkingDirectory=/opt/cloudurable
+Restart=always
+RestartSec=60
+TimeoutStopSec=60
+TimeoutStartSec=60
+
+
+[Install]
+WantedBy=multi-user.target
+
