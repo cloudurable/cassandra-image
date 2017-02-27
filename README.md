@@ -49,6 +49,20 @@ cqlsh localhost 29042
 ## Provisioning
 We use packer and vagrant to create images. 
 
+#### Running setup scripts
+```
+## cd ~; mkdir github; cd github; git clone https://github.com/cloudurable/cassandra-image
+$ cd ~/github/cassandra-image
+$ pwd
+~/github/cassandra-image
+## Setup keys
+$ bin/setupkeys-cassandra-security.sh
+## Download binaries
+$ bin/prepare_binaries.sh
+## Bring Vagrant cluster up
+$ vagrant up
+```
+
 
 #### Working with ansible from bastion
 
