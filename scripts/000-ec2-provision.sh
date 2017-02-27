@@ -2,7 +2,7 @@
 set -e
 
 
-sudo mv /home/centos/resources/ /root/
+sudo cp -r /home/centos/resources/ /root/
 sudo mv /home/centos/scripts/ /root/
 
 
@@ -32,4 +32,10 @@ sudo chown -R cassandra /etc/cassandra/
 sudo chmod o-r /etc/cassandra/jmxremote.password
 #Except this user
 sudo chmod u+r /etc/cassandra/jmxremote.password
+
+
+sudo mkdir  -p  /home/cassandra/.ssh/
+sudo chown cassandra /home/cassandra/.ssh
+
+sudo cp /home/centos/resources/server/certs/*  /home/cassandra/.ssh/
 
