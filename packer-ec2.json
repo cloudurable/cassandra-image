@@ -5,7 +5,7 @@
     "aws_region": "us-west-2",
     "aws_ami_image": "ami-d2c924b2",
     "aws_instance_type": "m4.large",
-    "image_version" : "0.1"
+    "image_version" : "0.2.1"
   },
   "builders": [
     {
@@ -29,25 +29,18 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "scripts/000-provision.sh",
-      "destination": "/home/centos/000-provision.sh"
+      "source": "scripts",
+      "destination": "/home/centos/"
     },
     {
       "type": "file",
-      "source": "ec2/home/centos/",
-      "destination": "/home/centos"
+      "source": "resources",
+      "destination": "/home/centos/"
     },
     {
       "type": "shell",
       "scripts": [
-        "scripts/ec2-provision.sh",
-        "scripts/010-metricsd.sh"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "rm -fr /home/centos/etc"
+        "scripts/000-ec2-provision.sh"
       ]
     }
   ]
