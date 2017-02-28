@@ -39,6 +39,10 @@ Vagrant.configure("2") do |config|
             node.vm.provision "ansible" do |ansible|
                   ansible.playbook = "playbooks/ssh-addkey.yml"
             end
+
+            node.vm.provision "ansible" do |ansible|
+                  ansible.playbook = "playbooks/ssh-addkey-vagrant.yml"
+            end
         end
   end
 
@@ -53,9 +57,8 @@ Vagrant.configure("2") do |config|
 
 
             node.vm.provision "shell", inline: <<-SHELL
-                sudo vagrant/scripts/bastion-vagrant-provision.sh
+                sudo /vagrant/scripts/bastion-vagrant-provision.sh
             SHELL
-
 
   end
 

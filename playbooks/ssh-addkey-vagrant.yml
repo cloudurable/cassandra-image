@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  remote_user: vagrant
+
+  tasks:
+
+  - name: install ssh key
+    authorized_key: user=vagrant
+                    key="{{ lookup('file', '../resources/server/certs/test_rsa.pub') }}"
+                    state=present
+
