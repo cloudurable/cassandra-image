@@ -12,3 +12,5 @@ resources/server/certs/
 resources/opt/apache-cassandra-3.9-bin.tar.gz
 resources/opt/cloudurable/bin/
 resources/opt/*.tar.gz
+/playbooks/describe-cluster.retry
+/playbooks/ssh-addkey.retry

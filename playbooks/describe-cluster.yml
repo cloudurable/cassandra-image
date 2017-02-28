@@ -1,0 +1,9 @@
+---
+- hosts: nodes
+  gather_facts: no
+  remote_user: vagrant
+
+  tasks:
+
+  - name: Run NodeTool Describe Cluster command
+    command: /opt/cassandra/bin/nodetool describecluster

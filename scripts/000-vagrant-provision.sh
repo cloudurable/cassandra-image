@@ -11,6 +11,8 @@ cp -r /vagrant/resources/* /home/vagrant/resources/
 
 mkdir  -p  /home/vagrant/.ssh/
 cp /vagrant/resources/server/certs/*  /home/vagrant/.ssh/
+chmod 400 /home/vagrant/.ssh/*
+chown -R vagrant /home/vagrant/.ssh/
 
 
 cd /vagrant/
