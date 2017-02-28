@@ -2,11 +2,11 @@
 - hosts: all
   become: true
   gather_facts: no
-  remote_user: vagrant
+  remote_user: ansible
 
   tasks:
 
   - name: install ssh key
-    authorized_key: user=vagrant
+    authorized_key: user=ansible
                     key="{{ lookup('file', '../resources/server/certs/test_rsa.pub') }}"
                     state=present
