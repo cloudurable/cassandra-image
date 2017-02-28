@@ -15,6 +15,9 @@ chmod 400 /home/vagrant/.ssh/*
 chown -R vagrant /home/vagrant/.ssh/
 
 
+
+
+
 cd /vagrant/
 
 echo RUNNING PROVISION

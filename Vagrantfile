@@ -39,6 +39,10 @@ Vagrant.configure("2") do |config|
             node.vm.provision "ansible" do |ansible|
                   ansible.playbook = "playbooks/ssh-addkey.yml"
             end
+
+            node.vm.provision "ansible" do |ansible|
+                  ansible.playbook = "playbooks/ssh-addkey-vagrant.yml"
+            end
         end
   end
 
@@ -53,30 +57,8 @@ Vagrant.configure("2") do |config|
 
 
             node.vm.provision "shell", inline: <<-SHELL
-                yum install -y epel-release
-                yum update -y
-                yum install -y  ansible
-
-                mkdir /home/vagrant/resources
-                cp -r /vagrant/resources/* /home/vagrant/resources/
-
-                mkdir -p ~/resources
-                cp -r /vagrant/resources/* ~/resources/
-
-                mkdir  -p  /home/vagrant/.ssh/
-                cp /vagrant/resources/server/certs/*  /home/vagrant/.ssh/
-
-                sudo  /vagrant/scripts/002-hosts.sh
-
-                ssh-keyscan node0 node1 node2  >> /home/vagrant/.ssh/known_hosts
-
-
-                mkdir ~/playbooks
-                cp -r /vagrant/playbooks/* ~/playbooks/
-                sudo cp /vagrant/resources/home/inventory.ini /etc/ansible/hosts
-                chown -R vagrant:vagrant /home/vagrant
+                sudo /vagrant/scripts/bastion-vagrant-provision.sh
             SHELL
-
 
   end
 
