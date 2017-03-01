@@ -4,6 +4,11 @@ set -e
 
 KEY_STORE_PATH="$PWD/resources/opt/cassandra/conf/certs"
 mkdir -p "$KEY_STORE_PATH"
+mkdir -p resources/server/certs
+touch ~/.ssh/test_rsa.pub
+touch ~/.ssh/test_rsa
+
+
 KEY_STORE="$KEY_STORE_PATH/cassandra.keystore"
 PKS_KEY_STORE="$KEY_STORE_PATH/cassandra.pks12.keystore"
 TRUST_STORE="$KEY_STORE_PATH/cassandra.truststore"
