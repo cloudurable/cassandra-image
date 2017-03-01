@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export AMI_CASSANDRA=ami-b20083d2
+export AMI_CASSANDRA=ami-6db3310d
 export VPC_SECURITY_GROUP=sg-a86533d0
 
 export SUBNET_CLUSTER=subnet-dc0f2984
