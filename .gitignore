@@ -14,3 +14,5 @@ resources/opt/cloudurable/bin/
 resources/opt/*.tar.gz
 /playbooks/describe-cluster.retry
 /playbooks/ssh-addkey.retry
+/ansible-ec2/ec2.ini
+/ansible-ec2/ec2.py
