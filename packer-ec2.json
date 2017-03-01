@@ -5,7 +5,7 @@
     "aws_region": "us-west-2",
     "aws_ami_image": "ami-d2c924b2",
     "aws_instance_type": "m4.large",
-    "image_version" : "0.2.1"
+    "image_version" : "0.2.2"
   },
   "builders": [
     {
@@ -42,6 +42,10 @@
       "scripts": [
         "scripts/000-ec2-provision.sh"
       ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "playbooks/ssh-addkey.yml"
     }
   ]
 }

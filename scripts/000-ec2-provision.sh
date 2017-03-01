@@ -34,8 +34,4 @@ sudo chmod o-r /etc/cassandra/jmxremote.password
 sudo chmod u+r /etc/cassandra/jmxremote.password
 
 
-sudo mkdir  -p  /home/cassandra/.ssh/
-sudo chown cassandra /home/cassandra/.ssh
-
-sudo cp /home/centos/resources/server/certs/*  /home/cassandra/.ssh/
 
