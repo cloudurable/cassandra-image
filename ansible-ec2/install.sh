@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -d ansible-ec2/ec2.py ]; then
+if [ ! -d "ansible-ec2/ec2.py" ]; then
     wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -O ansible-ec2/ec2.py
     chmod +x ansible-ec2/ec2.py
     wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini -O ansible-ec2/ec2.ini
