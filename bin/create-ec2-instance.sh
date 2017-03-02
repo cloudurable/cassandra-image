@@ -12,12 +12,14 @@ echo "${instance_id} is being created"
 
 aws ec2 wait instance-exists --instance-ids "$instance_id"
 
-aws ec2 create-tags --resources "${instance_id}" --tags Key=Name,Value="${EC2_INSTANCE_NAME}"
+aws ec2 create-tags --resources "${instance_id}" --tags Key=Name,Value="${EC2_INSTANCE_NAME}" \
+Key=Cluster,Value="Cassandra" Key=Env,Value="DEV"
 
 echo "${instance_id} was tagged waiting to login"
 
 aws ec2 wait instance-status-ok --instance-ids "$instance_id"
 
-bin/login-ec2-cassandra.sh
+bin/associate-DNS-with-IP.sh
 
+bin/login-ec2-cassandra.sh
 

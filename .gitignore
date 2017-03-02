@@ -16,3 +16,4 @@ resources/opt/*.tar.gz
 /playbooks/ssh-addkey.retry
 /ansible-ec2/ec2.ini
 /ansible-ec2/ec2.py
+/bin/ec2-env.sh
