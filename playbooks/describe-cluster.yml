@@ -1,5 +1,5 @@
 ---
-- hosts: nodes
+- hosts: aws-nodes
   gather_facts: no
   remote_user: ansible
 
