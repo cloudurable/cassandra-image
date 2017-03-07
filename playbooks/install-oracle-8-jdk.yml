@@ -4,7 +4,7 @@
   become: true
   remote_user: ansible
   vars:
-    download_url: http://download.oracle.com/otn/java/jdk/8u121-b13/jdk-8u121-linux-x64.tar.gz
+    download_url: http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz
     download_folder: /opt
     java_name: "{{download_folder}}/jdk1.8.0_121"
     java_archive: "{{download_folder}}/jdk-8u121-linux-x64.tar.gz"
@@ -19,6 +19,9 @@
 
   - name: Fix ownership
     file: state=directory path={{java_name}} owner=root group=root recurse=yes
+
+  - name: Remove previous
+    command: 'alternatives --remove "java" /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64/jre/bin/java'
 
   - name: Make Java available for system
     command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
