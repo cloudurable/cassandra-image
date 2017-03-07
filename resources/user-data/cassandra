@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+export BIND_IP=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
+
+/opt/cloudurable/bin/cassandra-cloud -cluster-name test \
+                -client-address  ${BIND_IP} \
+                -cluster-address  ${BIND_IP} \
+                -cluster-seeds 10.0.1.10
+
+/bin/systemctl restart  cassandra
+
+

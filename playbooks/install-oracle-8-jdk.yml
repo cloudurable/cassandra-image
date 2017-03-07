@@ -1,0 +1,27 @@
+---
+- hosts: cassandra-nodes
+  gather_facts: no
+  become: true
+  remote_user: ansible
+  vars:
+    download_url: http://download.oracle.com/otn/java/jdk/8u121-b13/jdk-8u121-linux-x64.tar.gz
+    download_folder: /opt
+    java_name: "{{download_folder}}/jdk1.8.0_121"
+    java_archive: "{{download_folder}}/jdk-8u121-linux-x64.tar.gz"
+
+
+  tasks:
+  - name: Download Java
+    command: "curl -L -b 'oraclelicense=a' {{download_url}} -o {{java_archive}} creates={{java_archive}}"
+
+  - name: Unpack archive
+    command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+
+  - name: Fix ownership
+    file: state=directory path={{java_name}} owner=root group=root recurse=yes
+
+  - name: Make Java available for system
+    command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
+
+  - name: Clean up
+    file: state=absent path={{java_archive}}

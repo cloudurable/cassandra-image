@@ -168,6 +168,20 @@
         ]
       }
     },
+    "routeTablePrivate": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    },
     "eipForNatGateway": {
       "Type": "AWS::EC2::EIP",
       "Properties": {
@@ -276,6 +290,17 @@
         }
       }
     },
+    "subnetRouteTableAssociationPrivate": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate"
+        }
+      }
+    },
     "routeNatGateway": {
       "Type": "AWS::EC2::Route",
       "Properties": {
@@ -285,6 +310,18 @@
         },
         "RouteTableId": {
           "Ref": "routeTableMain"
+        }
+      }
+    },
+    "routeNatGatewayPrivate": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "natGateway"
+        },
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
         }
       }
     },
