@@ -4,11 +4,27 @@ set -e
 source bin/ec2-env.sh
 
 
+# Set the private IP to 10.0.1.10 (the seed node), if first arg empty
 if [ -z "$1" ]
     then
         PRIVATE_IP_ADDRESS=10.0.1.10
     else
         PRIVATE_IP_ADDRESS=$1
+fi
+
+# Set the AZ to a if empty
+if [ -z "$2" ]
+    then
+        AZ="a"
+    else
+        AZ=$2
+fi
+
+if [ "$AZ" == "a" ]
+    then
+        SUBNET_PRIVATE="$SUBNET_PRIVATE1"
+    else
+        SUBNET_PRIVATE="$SUBNET_PRIVATE2"
 fi
 
 instance_id=$(aws ec2 run-instances --image-id "$CASSANDRA_AMI" --subnet-id  "$SUBNET_PRIVATE" \

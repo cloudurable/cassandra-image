@@ -14,14 +14,25 @@
         }
       }
     },
-    "subnetPrivateOut": {
+    "subnetPrivate1Out": {
       "Description": "Subnet Private Id",
       "Value": {
-        "Ref": "subnetPrivate"
+        "Ref": "subnetPrivate1"
       },
       "Export": {
         "Name": {
-          "Fn::Sub": "${AWS::StackName}-subnetPrivate"
+          "Fn::Sub": "${AWS::StackName}-subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2Out": {
+      "Description": "Subnet Private Id",
+      "Value": {
+        "Ref": "subnetPrivate2"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-subnetPrivate2"
         }
       }
     },
@@ -88,7 +99,7 @@
         ]
       }
     },
-    "subnetPrivate": {
+    "subnetPrivate1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.1.0/24",
@@ -103,7 +114,27 @@
           },
           {
             "Key": "Name",
-            "Value": "Private subnet"
+            "Value": "Private subnet1"
+          }
+        ]
+      }
+    },
+    "subnetPrivate2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": "us-west-2b",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "Private subnet2"
           }
         ]
       }
@@ -257,14 +288,25 @@
         }
       }
     },
-    "subnetAclAssociationPrivate": {
+    "subnetPrivate1AclAssociation": {
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
       "Properties": {
         "NetworkAclId": {
           "Ref": "networkACL"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate"
+          "Ref": "subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2AclAssociation": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate2"
         }
       }
     },
@@ -290,14 +332,25 @@
         }
       }
     },
-    "subnetRouteTableAssociationPrivate": {
+    "subnetPrivate1RouteTableAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
           "Ref": "routeTablePrivate"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate"
+          "Ref": "subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate2"
         }
       }
     },
