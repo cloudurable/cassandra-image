@@ -1,6 +1,52 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Setup VPC for Cassandra Cluster for Cassandra Database",
+  "Parameters": {
+    "vpcCidr": {
+      "Description": "Enter VPC CIDR",
+      "Type": "String",
+      "Default": "10.1.0.0/16",
+      "AllowedValues": [
+        "10.0.0.0/16",
+        "10.1.0.0/16",
+        "10.2.0.0/16",
+        "10.3.0.0/16"
+      ]
+    },
+    "subnetPublicCidr": {
+      "Description": "Enter Public Subnet CIDR",
+      "Type": "String",
+      "Default": "10.1.0.0/24",
+      "AllowedValues": [
+        "10.0.0.0/24",
+        "10.1.0.0/24",
+        "10.2.0.0/24",
+        "10.3.0.0/24"
+      ]
+    },
+    "subnetCluster1Cidr": {
+      "Description": "Enter Cluster Subnet Rack 1 CIDR",
+      "Type": "String",
+      "Default": "10.1.1.0/24",
+      "AllowedValues": [
+        "10.0.1.0/24",
+        "10.1.1.0/24",
+        "10.2.1.0/24",
+        "10.3.1.0/24"
+      ]
+    },
+    "subnetCluster2Cidr": {
+      "Description": "Enter Cluster Subnet Rack 2 CIDR",
+      "Type": "String",
+      "Default": "10.1.2.0/24",
+      "AllowedValues": [
+        "10.0.2.0/24",
+        "10.1.2.0/24",
+        "10.2.2.0/24",
+        "10.3.2.0/24"
+      ]
+    }
+  },
 
   "Outputs": {
     "subnetPublicOut": {
@@ -63,7 +109,7 @@
     "vpcMain": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": "10.0.0.0/16",
+        "CidrBlock": {"Ref": "vpcCidr"},
         "InstanceTenancy": "default",
         "EnableDnsSupport": "true",
         "EnableDnsHostnames": "true",
@@ -82,7 +128,7 @@
     "subnetPublic": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "CidrBlock": "10.0.0.0/24",
+        "CidrBlock": {"Ref": "subnetPublicCidr"},
         "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "a"] ] },
         "VpcId": {
           "Ref": "vpcMain"
@@ -102,7 +148,7 @@
     "subnetCluster1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "CidrBlock": "10.0.1.0/24",
+        "CidrBlock": {"Ref": "subnetCluster1Cidr"},
         "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "a"] ] },
         "VpcId": {
           "Ref": "vpcMain"
@@ -122,7 +168,7 @@
     "subnetCluster2": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "CidrBlock": "10.0.2.0/24",
+        "CidrBlock": {"Ref": "subnetCluster2Cidr"},
         "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "b"] ] },
         "VpcId": {
           "Ref": "vpcMain"
