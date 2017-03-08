@@ -14,25 +14,25 @@
         }
       }
     },
-    "subnetPrivate1Out": {
-      "Description": "Subnet Private Id",
+    "subnetCluster1Out": {
+      "Description": "Subnet Cluster 1 Id",
       "Value": {
-        "Ref": "subnetPrivate1"
+        "Ref": "subnetCluster1"
       },
       "Export": {
         "Name": {
-          "Fn::Sub": "${AWS::StackName}-subnetPrivate1"
+          "Fn::Sub": "${AWS::StackName}-subnetCluster1"
         }
       }
     },
-    "subnetPrivate2Out": {
-      "Description": "Subnet Private Id",
+    "subnetCluster2Out": {
+      "Description": "Subnet Cluster Id",
       "Value": {
-        "Ref": "subnetPrivate2"
+        "Ref": "subnetCluster2"
       },
       "Export": {
         "Name": {
-          "Fn::Sub": "${AWS::StackName}-subnetPrivate2"
+          "Fn::Sub": "${AWS::StackName}-subnetCluster2"
         }
       }
     },
@@ -83,7 +83,7 @@
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.0.0/24",
-        "AvailabilityZone": "us-west-2a",
+        "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "a"] ] },
         "VpcId": {
           "Ref": "vpcMain"
         },
@@ -99,11 +99,11 @@
         ]
       }
     },
-    "subnetPrivate1": {
+    "subnetCluster1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.1.0/24",
-        "AvailabilityZone": "us-west-2a",
+        "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "a"] ] },
         "VpcId": {
           "Ref": "vpcMain"
         },
@@ -114,16 +114,16 @@
           },
           {
             "Key": "Name",
-            "Value": "Private subnet1"
+            "Value": "Cluster subnet1"
           }
         ]
       }
     },
-    "subnetPrivate2": {
+    "subnetCluster2": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.2.0/24",
-        "AvailabilityZone": "us-west-2b",
+        "AvailabilityZone": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, "b"] ] },
         "VpcId": {
           "Ref": "vpcMain"
         },
@@ -134,7 +134,7 @@
           },
           {
             "Key": "Name",
-            "Value": "Private subnet2"
+            "Value": "Cluster subnet2"
           }
         ]
       }
@@ -147,7 +147,7 @@
     "dhcpOptions": {
       "Type": "AWS::EC2::DHCPOptions",
       "Properties": {
-        "DomainName": "us-west-2.compute.internal",
+        "DomainName": { "Fn::Join" : [ "", [ { "Ref": "AWS::Region"}, ".compute.internal"] ] },
         "DomainNameServers": [
           "AmazonProvidedDNS"
         ]
@@ -199,7 +199,7 @@
         ]
       }
     },
-    "routeTablePrivate": {
+    "routeTableCluster": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
         "VpcId": {
@@ -211,26 +211,6 @@
             "Value": "cassandra-test"
           }
         ]
-      }
-    },
-    "eipForNatGateway": {
-      "Type": "AWS::EC2::EIP",
-      "Properties": {
-        "Domain": "vpc"
-      }
-    },
-    "natGateway": {
-      "Type": "AWS::EC2::NatGateway",
-      "Properties": {
-        "AllocationId": {
-          "Fn::GetAtt": [
-            "eipForNatGateway",
-            "AllocationId"
-          ]
-        },
-        "SubnetId": {
-          "Ref": "subnetPublic"
-        }
       }
     },
     "securityGroupDefault": {
@@ -288,25 +268,25 @@
         }
       }
     },
-    "subnetPrivate1AclAssociation": {
+    "subnetCluster1AclAssociation": {
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
       "Properties": {
         "NetworkAclId": {
           "Ref": "networkACL"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate1"
+          "Ref": "subnetCluster1"
         }
       }
     },
-    "subnetPrivate2AclAssociation": {
+    "subnetCluster2AclAssociation": {
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
       "Properties": {
         "NetworkAclId": {
           "Ref": "networkACL"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate2"
+          "Ref": "subnetCluster2"
         }
       }
     },
@@ -332,58 +312,47 @@
         }
       }
     },
-    "subnetPrivate1RouteTableAssociation": {
+    "subnetCluster1RouteTableAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
-          "Ref": "routeTablePrivate"
+          "Ref": "routeTableCluster"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate1"
+          "Ref": "subnetCluster1"
         }
       }
     },
-    "subnetPrivate2RouteTableAssociation": {
+    "subnetCluster2RouteTableAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
         "RouteTableId": {
-          "Ref": "routeTablePrivate"
+          "Ref": "routeTableCluster"
         },
         "SubnetId": {
-          "Ref": "subnetPrivate2"
+          "Ref": "subnetCluster2"
         }
       }
     },
-    "routeNatGateway": {
-      "Type": "AWS::EC2::Route",
-      "Properties": {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": {
-          "Ref": "natGateway"
-        },
-        "RouteTableId": {
-          "Ref": "routeTableMain"
-        }
-      }
-    },
-    "routeNatGatewayPrivate": {
-      "Type": "AWS::EC2::Route",
-      "Properties": {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "NatGatewayId": {
-          "Ref": "natGateway"
-        },
-        "RouteTableId": {
-          "Ref": "routeTablePrivate"
-        }
-      }
-    },
-    "routeInternetGateway": {
+    "routePublicSubnetToInternetGateway": {
       "Type": "AWS::EC2::Route",
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "RouteTableId": {
           "Ref": "routeTablePublic"
+        },
+        "GatewayId": {
+          "Ref": "internetGateway"
+        }
+      },
+      "DependsOn": "vpcGatewayAttachment"
+    },
+    "routeClusterToInternetGateway": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "routeTableCluster"
         },
         "GatewayId": {
           "Ref": "internetGateway"
@@ -468,6 +437,16 @@
           {
             "IpProtocol": "-1",
             "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "TCP",
+            "CidrIp": "0.0.0.0/0",
+            "FromPort": "7000", "ToPort":"7001"
+          },
+          {
+            "IpProtocol": "TCP",
+            "CidrIp": "0.0.0.0/0",
+            "FromPort": "9042", "ToPort":"9042"
           }
         ],
         "SecurityGroupEgress": [
