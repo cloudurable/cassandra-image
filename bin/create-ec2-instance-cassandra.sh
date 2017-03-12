@@ -60,6 +60,7 @@ instance_id=$(aws --region ${AWS_REGION} ec2 run-instances --image-id "$CASSANDR
  --instance-type ${CASSANDRA_NODE_SIZE} --private-ip-address ${PRIVATE_IP_ADDRESS}  \
  --iam-instance-profile "Name=$CASSANDRA_IAM_PROFILE" \
  --security-group-ids "$CASSANDRA_SECURITY_GROUP" \
+ --associate-public-ip-address \
  --user-data "file://resources/user-data/cassandra-${AWS_REGION}" | jq --raw-output .Instances[].InstanceId)
 
 ## For debugging only...

@@ -31,6 +31,10 @@ ssl_storage_port: {{.ClusterSslPort}}
 native_transport_port: {{.ClientPort}}
 endpoint_snitch: {{.Snitch}}
 
+
+{{if .ClusterBroadcastAddress}}# Broadcast address for storage cluster communication
+listen_on_broadcast_address: true
+broadcast_address: {{.ClusterBroadcastAddress}}{{end}}
 {{if .ClientListenAddress}}# Listen address for client communication
 rpc_address: {{.ClientListenAddress}}{{end}}
 {{if .ClientListenInterface}}# Listen network interface for client communication
@@ -143,7 +147,7 @@ memtable_allocation_type: offheap_objects
 index_summary_capacity_in_mb:
 index_summary_resize_interval_in_minutes: 60
 
-# listen_on_broadcast_address: false
+
 # internode_authenticator: org.apache.cassandra.auth.AllowAllInternodeAuthenticator
 
 start_native_transport: true

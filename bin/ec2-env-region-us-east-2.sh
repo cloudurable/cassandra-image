@@ -4,9 +4,9 @@ set -e
 export SUBNET_PUBLIC=subnet-5a9c1b33
 export SUBNET_PRIVATE1=subnet-5b9c1b32
 export SUBNET_PRIVATE2=subnet-b705cccc
-export BASTION_AMI=ami-fa6d499f
+export BASTION_AMI=ami-b44266d1
 export BASTION_SECURITY_GROUP=sg-df801ab6
-export CASSANDRA_AMI=ami-fa6d499f
+export CASSANDRA_AMI=ami-b44266d1
 export CASSANDRA_SECURITY_GROUP=sg-de801ab7
 
 export SUBNET_VPC_CIDR=10.2.0.0/16
