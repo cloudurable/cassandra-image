@@ -33,7 +33,6 @@ endpoint_snitch: {{.Snitch}}
 
 
 {{if .ClusterBroadcastAddress}}# Broadcast address for storage cluster communication
-listen_on_broadcast_address: true
 broadcast_address: {{.ClusterBroadcastAddress}}{{end}}
 {{if .ClientListenAddress}}# Listen address for client communication
 rpc_address: {{.ClientListenAddress}}{{end}}
