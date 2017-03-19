@@ -1,0 +1,492 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Setup VPC for Cassandra Cluster for Cassandra Database",
+
+  "Outputs": {
+    "subnetPublicOut": {
+      "Description": "Subnet Public Id",
+      "Value": {
+        "Ref": "subnetPublic"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-subnetPublic"
+        }
+      }
+    },
+    "subnetPrivate1Out": {
+      "Description": "Subnet Private Id",
+      "Value": {
+        "Ref": "subnetPrivate1"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2Out": {
+      "Description": "Subnet Private Id",
+      "Value": {
+        "Ref": "subnetPrivate2"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-subnetPrivate2"
+        }
+      }
+    },
+    "securityGroupBastionOut": {
+      "Description": "Security Group Bastion for managing Cassandra Cluster Nodes with Ansible",
+      "Value": {
+        "Ref": "securityGroupBastion"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-securityGroupBastion"
+        }
+      }
+    },
+    "securityGroupCassandraNodesOut": {
+      "Description": "Cassandra Database Node security group for Cassandra Cluster",
+      "Value": {
+        "Ref": "securityGroupCassandraNodes"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-securityGroupCassandraNodes"
+        }
+      }
+    }
+  },
+  "Resources": {
+    "vpcMain": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "true",
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "CassandraTestCluster"
+          }
+        ]
+      }
+    },
+    "subnetPublic": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/24",
+        "AvailabilityZone": "us-west-2a",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "Public subnet"
+          }
+        ]
+      }
+    },
+    "subnetPrivate1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.1.0/24",
+        "AvailabilityZone": "us-west-2a",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "Private subnet1"
+          }
+        ]
+      }
+    },
+    "subnetPrivate2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": "us-west-2b",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "Private subnet2"
+          }
+        ]
+      }
+    },
+    "internetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+      }
+    },
+    "dhcpOptions": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "us-west-2.compute.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "networkACL": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "CassandraTestNACL"
+          }
+        ]
+      }
+    },
+    "routeTableMain": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    },
+    "routeTablePublic": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    },
+    "routeTablePrivate": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    },
+    "eipForNatGateway": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      }
+    },
+    "natGateway": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "eipForNatGateway",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "subnetPublic"
+        }
+      }
+    },
+    "securityGroupDefault": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "default VPC security group",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "Tags": [
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          },
+          {
+            "Key": "Name",
+            "Value": "CassandraTestSG"
+          }
+        ]
+      }
+    },
+    "aclEntryAllowAllEgress": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        }
+      }
+    },
+    "aclEntryAllowAllIngress": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        }
+      }
+    },
+    "subnetAclAssociationPublic": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        },
+        "SubnetId": {
+          "Ref": "subnetPublic"
+        }
+      }
+    },
+    "subnetPrivate1AclAssociation": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2AclAssociation": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "networkACL"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate2"
+        }
+      }
+    },
+    "vpcGatewayAttachment": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "InternetGatewayId": {
+          "Ref": "internetGateway"
+        }
+      }
+    },
+    "subnetRouteTableAssociationPublic": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routeTablePublic"
+        },
+        "SubnetId": {
+          "Ref": "subnetPublic"
+        }
+      }
+    },
+    "subnetPrivate1RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate1"
+        }
+      }
+    },
+    "subnetPrivate2RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
+        },
+        "SubnetId": {
+          "Ref": "subnetPrivate2"
+        }
+      }
+    },
+    "routeNatGateway": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "natGateway"
+        },
+        "RouteTableId": {
+          "Ref": "routeTableMain"
+        }
+      }
+    },
+    "routeNatGatewayPrivate": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "natGateway"
+        },
+        "RouteTableId": {
+          "Ref": "routeTablePrivate"
+        }
+      }
+    },
+    "routeInternetGateway": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "routeTablePublic"
+        },
+        "GatewayId": {
+          "Ref": "internetGateway"
+        }
+      },
+      "DependsOn": "vpcGatewayAttachment"
+    },
+    "vpcDHCPOptionsAssociation": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "DhcpOptionsId": {
+          "Ref": "dhcpOptions"
+        }
+      }
+    },
+    "securityGroupIngressDefault": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "securityGroupDefault"
+        },
+        "IpProtocol": "-1",
+        "SourceSecurityGroupId": {
+          "Ref": "securityGroupDefault"
+        }
+      }
+    },
+    "securityGroupEgressDefault": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "securityGroupDefault"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "securityGroupBastion": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security group for bastion server.",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "bastionSecurityGroup"
+          },
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    },
+    "securityGroupCassandraNodes": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security group for Cassandra Database nodes in Cassandra Cluster",
+        "VpcId": {
+          "Ref": "vpcMain"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": "10.0.0.0/8"
+          }
+        ],
+        "SecurityGroupEgress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "cassandraSecurityGroup"
+          },
+          {
+            "Key": "cloudgen",
+            "Value": "cassandra-test"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,19 +1,32 @@
 #!/bin/bash
 set -e
 
-echo "RENAME THIS FILE to ec2-env.sh"
 
-export AMI_CASSANDRA=ami-YOUR_AMI_FOR_CASSANDRA
-export VPC_SECURITY_GROUP=sg-YOUR_SECURITY_GROUP
+export REGION=us-west-2
+export ENV=dev
+export KEY_PAIR_NAME="cloudurable-$REGION"
+export PEM_FILE="${HOME}/.ssh/${KEY_PAIR_NAME}.pem"
+export SUBNET_PUBLIC=subnet-abc1234
+export SUBNET_PRIVATE=subnet-abc1234
+export CLOUD_FORMER_S3_BUCKET=abc1234-cloudformer-templates
 
-export SUBNET_CLUSTER=subnet-YOUR_SUBNET
-export KEY_NAME_CASSANDRA=YOUR_KEY_PAIR_NAME
-export PEM_FILE="${HOME}/.ssh/${KEY_NAME_CASSANDRA}.pem"
-export IAM_PROFILE_CASSANDRA=YOUR_IAM_PROFILE_THAT_HAS_ACCESS_TO_CLOUDWATCH_LOG_CREATION_METRICS
-export EC2_INSTANCE_NAME=cassandra-node
 
-export HOSTED_ZONE_ID="YOUR_HOSTED_ID"
 
-export NODE0_DNS="node0.cassandra.internal.YOUR_DOMAIN."
+export BASTION_NODE_SIZE=t2.small
+export BASTION_SECURITY_GROUP=sg-abc1234
+export BASTION_AMI=ami-abc1234
+export BASTION_EC2_INSTANCE_NAME="bastion.${ENV}.${REGION}"
+export BASTION_DNS_NAME="bastion.${ENV}.${REGION}.cloudurable.com."
+
+
+export CASSANDRA_NODE_SIZE=m4.large
+export CASSANDRA_AMI=ami-abc1234
+export CASSANDRA_SECURITY_GROUP=sg-abc1234
+export CASSANDRA_IAM_PROFILE=IAM_PROFILE_CASSANDRA
+export CASSANDRA_EC2_INSTANCE_NAME="cassandra-node.${ENV}.${REGION}"
+export CASSANDRA_DNS_NAME="node0.${ENV}.${REGION}.cloudurable.com."
+
+
+export HOSTED_ZONE_ID="abc1234"
 
 

@@ -1,5 +1,5 @@
 ---
-- hosts: aws-nodes
+- hosts: cassandra-nodes
   gather_facts: no
   remote_user: ansible
 
