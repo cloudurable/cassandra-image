@@ -22,3 +22,5 @@ fi
 if [ ! -d "$SOURCE_DIRECTORY" ]; then
     echo "UNABLE TO INSTALL CERTS AS THEY WERE NOT FOUND"
 fi
+
+

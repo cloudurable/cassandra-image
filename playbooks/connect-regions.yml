@@ -7,10 +7,8 @@
     cluster_name: test
     seeds: 52.14.159.203,52.14.108.53,54.202.57.109,54.149.126.26
     aws_meta: http://169.254.169.254/latest/meta-data
-#    region: "{{aws_meta}}/placement/availability-zone"
     bind_ip: "{{aws_meta}}/local-ipv4"
     broadcast_ip: "{{aws_meta}}/public-ipv4"
-
 
   tasks:
 
@@ -25,17 +23,6 @@
   - name : "Get bind_ip"
     command: curl {{bind_ip}}
     register: bind_ip_contents
-
-#  - name : "Get region"
-#    shell: curl {{region}} | cut -c 1-9
-#    register: region_contents
-#  - name : "Copy correct rackdc"
-#    copy:
-#      src: "../resources/opt/cassandra/conf/cassandra-rackdc-{{region_contents.stdout}}.properties"
-#      dest: "/opt/cassandra/conf/cassandra-rackdc.properties"
-#      owner: cassandra
-#      group: cassandra
-#      mode: "u=rw,g=r,o=r"
 
   - name : "Get broadcast_ip"
     command: curl {{broadcast_ip}}
@@ -52,3 +39,16 @@
   - name: Restart Cassandra
     command: "/bin/systemctl restart  cassandra"
 
+
+
+#    region: "{{aws_meta}}/placement/availability-zone"
+#  - name : "Get region"
+#    shell: curl {{region}} | cut -c 1-9
+#    register: region_contents
+#  - name : "Copy correct rackdc"
+#    copy:
+#      src: "../resources/opt/cassandra/conf/cassandra-rackdc-{{region_contents.stdout}}.properties"
+#      dest: "/opt/cassandra/conf/cassandra-rackdc.properties"
+#      owner: cassandra
+#      group: cassandra
+#      mode: "u=rw,g=r,o=r"
