@@ -12,4 +12,5 @@ fi
 
 
 aws ec2 describe-instances --filters  "Name=tag:Name,Values=${EC2_INSTANCE_NAME}" \
+"Name=instance-state-name,Values=running" \
 | jq --raw-output .Reservations[].Instances[0].PublicIpAddress

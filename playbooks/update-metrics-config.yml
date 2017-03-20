@@ -1,0 +1,12 @@
+---
+- hosts: cassandra-nodes
+  gather_facts: no
+  become: true
+  remote_user: ansible
+
+  tasks:
+
+  - name : "Copy Metrics config"
+    copy:
+      src: ../resources/etc/metricsd.conf
+      dest: /etc/metricsd.conf
