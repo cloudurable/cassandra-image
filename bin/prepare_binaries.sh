@@ -38,7 +38,7 @@ downloadAndVerify() {
 
 
 #downloadAndVerify "$ADVANTAGEOUS_GITHUB_HOME" systemd-cloud-watch systemd-cloud-watch "v0.2.1" "resources/opt/cloudurable/bin"
-downloadAndVerify "$CLOUDURABLE_GITHUB_HOME" metricsd metricsd "0.4" "resources/opt/cloudurable/bin"
+downloadAndVerify "$CLOUDURABLE_GITHUB_HOME" metricsd metricsd "0.4.1" "resources/opt/cloudurable/bin"
 #downloadAndVerify "$CLOUDURABLE_GITHUB_HOME" cassandra-cloud cassandra-cloud "v0.0.6" "resources/opt/cloudurable/bin"
 #downloadAndVerify "$CLOUDURABLE_GITHUB_HOME" cassandra-image apache-cassandra-3.9-bin.tar.gz "v0.1.0" "resources/opt"
 
